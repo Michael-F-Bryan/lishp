@@ -1,9 +1,10 @@
 //! Various useful helper functions.
-use std::iter;
-use std::io::{Result as IoResult, Write};
-use dot;
+
 
 use ast::Sexpr;
+use dot;
+use std::io::{Result as IoResult, Write};
+use std::iter;
 
 
 /// Walk the AST then use it to generate a Dot graph and write it to a file-like

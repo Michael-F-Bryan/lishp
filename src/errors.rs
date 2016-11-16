@@ -1,10 +1,11 @@
+//! Errors specific to the lishp interpreter.
 
 // This is a work in progress, so explicitly ignore all lints for now
 #![allow(missing_docs, unused_imports, dead_code)]
 
 use std::convert::From;
-use std::fmt::{Formatter, Display, Result as FmtResult};
 use std::error::Error;
+use std::fmt::{Formatter, Display, Result as FmtResult};
 
 pub type LishpResult<T> = Result<T, LishpError>;
 

@@ -1,11 +1,11 @@
 //! This module contains the underlying types that the AST consists of.
 
-use std::collections::VecDeque;
-use std::iter::IntoIterator;
-use std::fmt::{Formatter, Display, Result as FmtResult};
-use lalrpop_util;
 
 use grammar;
+use lalrpop_util;
+use std::collections::VecDeque;
+use std::fmt::{Formatter, Display, Result as FmtResult};
+use std::iter::IntoIterator;
 
 
 /// Parse source code into its abstract syntax tree representation.
@@ -114,11 +114,7 @@ impl Display for List {
         let mut repr = String::new();
         repr.push_str("(");
 
-        let args = self.elements
-            .iter()
-            .map(|e| format!("{}", e))
-            .collect::<Vec<_>>()
-            .join(" ");
+        let args = self.elements.iter().map(|e| format!("{}", e)).collect::<Vec<_>>().join(" ");
         repr.push_str(&args);
         repr.push_str(")");
         write!(f, "{}", repr)
@@ -137,8 +133,8 @@ impl Display for Sexpr {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use grammar::{parse_atom, parse_sexpr};
+    use super::*;
 
 
     #[test]

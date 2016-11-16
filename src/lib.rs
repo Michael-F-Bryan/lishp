@@ -1,4 +1,20 @@
 //! A lisp interpreter written in Rust.
+//!
+//! The interpreter itself can be used as a library, which means it's possible
+//! to give your applications a scripting engine.
+//!
+//! # Examples
+//!
+//! include!("src/bin/main.rs");
+//!
+//! ```
+//! extern crate lishp;
+//!
+//! let src = "(print 1 2)";
+//! let ast = lishp::parse(src).unwrap();
+//! ```
+
+// TODO: Update example when code evaluation works
 
 #![feature(conservative_impl_trait)]
 
@@ -16,17 +32,18 @@
 #![cfg_attr(feature = "dev", feature(plugin))]
 #![cfg_attr(feature = "dev", plugin(clippy))]
 
-
+// External dependencies
 extern crate lalrpop_util;
 extern crate dot;
 
-pub mod ast;
-mod errors;
-pub mod helpers;
-
+// Sub-modules of the lishp crate
 #[allow(clippy, missing_docs, dead_code)]
+pub mod ast;
+pub mod helpers;
 mod grammar;
+mod errors;
 
 // Re-exports for convenience
+
 pub use ast::parse;
 // pub use errors::{LishpError, LishpResult};
