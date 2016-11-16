@@ -83,7 +83,7 @@ impl List {
     }
 
     /// Get an iterator over the elements in the list.
-    pub fn iter<'a>(&'a self) -> impl Iterator<Item = &'a Box<Sexpr>> {
+    pub fn iter<'a>(&'a self) -> ::std::collections::vec_deque::Iter<Box<Sexpr>> {
         self.elements.iter()
     }
 }

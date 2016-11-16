@@ -16,8 +16,6 @@
 
 // TODO: Update example when code evaluation works
 
-#![feature(conservative_impl_trait)]
-
 #![deny(missing_docs,
         missing_debug_implementations, missing_copy_implementations,
         trivial_casts,
