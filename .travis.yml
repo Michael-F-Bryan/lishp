@@ -12,13 +12,11 @@ before_script:
 - |
   pip install 'travis-cargo<0.2' --user &&
   export PATH=$HOME/.local/bin:$PATH
-- cargo install clippy || true
 script:
 - |
   travis-cargo build &&
   travis-cargo test &&
-  travis-cargo --only stable doc &&
-  travis-cargo --only stable clippy
+  travis-cargo --only stable doc
 after_success:
 - travis-cargo --only stable doc-upload
 env:

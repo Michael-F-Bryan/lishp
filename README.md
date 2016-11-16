@@ -1,6 +1,6 @@
 # Lishp
 
-![Build Status](https://travis-ci.org/Michael-F-Bryan/lishp.svg?branch=master)
+![Build Status](https://travis-ci.org/Michael-F-Bryan/lishp.svg)
 ![MIT License](https://img.shields.io/github/license/Michael-F-Bryan/lishp.svg)
 
 Yet another lisp interpreter. This time, written in `Rust`.
