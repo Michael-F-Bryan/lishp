@@ -1,0 +1,4 @@
+target
+
+# ignore the generated parser
+src/grammar.rs
