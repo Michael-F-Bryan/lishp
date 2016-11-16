@@ -2,5 +2,7 @@ extern crate lishp;
 
 
 fn main() {
-    println!("Hello, world!");
+    let src = "(1 2 )";
+    let got = lishp::parse(src);
+    println!("{}", got.unwrap());
 }
