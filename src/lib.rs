@@ -5,8 +5,6 @@
 //!
 //! # Examples
 //!
-//! include!("src/bin/main.rs");
-//!
 //! ```
 //! extern crate lishp;
 //!

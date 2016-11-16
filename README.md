@@ -1,5 +1,7 @@
 # Lishp
 
+[![Build Status](https://travis-ci.org/Michael-F-Bryan/lishp.svg?branch=master)](https://travis-ci.org/Michael-F-Bryan/lishp)
+
 Yet another lisp interpreter. This time, written in `Rust`.
 
 
