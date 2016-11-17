@@ -2,16 +2,5 @@
 name = "lishp"
 version = "0.1.0"
 authors = ["Michael Bryan <michaelfbryan@gmail.com>"]
-build = "build.rs"
-
-[features]
-default = []
-dev = ["clippy"]
 
 [dependencies]
-lalrpop-util = "^0.12.1"
-dot = "^0.1.2"
-clippy = {version = "^0.0.98", optional = true}
-
-[build-dependencies]
-lalrpop = "^0.12.1"

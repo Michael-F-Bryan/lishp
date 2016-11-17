@@ -28,18 +28,6 @@
 #![cfg_attr(feature = "dev", feature(plugin))]
 #![cfg_attr(feature = "dev", plugin(clippy))]
 
-// External dependencies
-extern crate lalrpop_util;
-extern crate dot;
 
 // Sub-modules of the lishp crate
-#[allow(clippy, missing_docs, dead_code)]
-pub mod ast;
-pub mod helpers;
-mod grammar;
-mod errors;
-
-// Re-exports for convenience
-
-pub use ast::parse;
-// pub use errors::{LishpError, LishpResult};
+mod lexer;
