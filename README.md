@@ -1,6 +1,6 @@
 # Lishp
 
-![Build Status](https://travis-ci.org/Michael-F-Bryan/lishp.svg?branch=master)
+[![Build Status](https://travis-ci.org/Michael-F-Bryan/lishp.svg?branch=master)][travis]
 ![MIT License](https://img.shields.io/github/license/Michael-F-Bryan/lishp.svg)
 
 Yet another lisp interpreter. This time, written in `Rust`.
@@ -52,4 +52,5 @@ $ cargo run
 * [ ] Compile code to LLVM or binary.
 
 
+[travis]: https://travis-ci.org/Michael-F-Bryan/lishp
 [docs]: https://michael-f-bryan.github.io/lishp/
