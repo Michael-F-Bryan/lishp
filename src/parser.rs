@@ -69,6 +69,9 @@ impl Parser {
             components.push(next_atom);
         }
 
+        // pop off the closing paren
+        let _ = self.next();
+
         if components.len() == 0 {
             Ok(Type::Nil)
         } else {
@@ -111,7 +114,7 @@ mod tests {
 
     #[test]
     fn parse_nil_expressions() {
-        let inputs = vec![vec![], vec![tok!("("), tok!(")")], vec![tok!("nil")]];
+        let inputs = vec![vec![], toks!("(", ")"), toks!("nil")];
 
         for input in inputs {
             let mut parser = Parser::new(input.clone());
@@ -144,7 +147,9 @@ mod tests {
 
     #[test]
     fn parse_basic_lists() {
-        let inputs = vec![(toks!("(", "foo", ")"), t!(List, [t!(Sym, "foo")]))];
+        let inputs = vec![(toks!("(", "foo", ")"), t!(List, [t!(Sym, "foo")])),
+                          (toks!("(", "+", "1.23", ")"),
+                           t!(List, [t!(Sym, "+"), t!(Float, 1.23)]))];
 
         for (src, should_be) in inputs {
             let mut parser = Parser::new(src.clone());
@@ -156,4 +161,37 @@ mod tests {
             assert_eq!(got, Ok(should_be));
         }
     }
+
+    #[test]
+    fn simple_nested_list() {
+        let tokens = toks!("(", "foo", "(", "9", ")", ")");
+        let should_be = t!(List, [t!(Sym, "foo"), t!(List, [t!(Int, 9)])]);
+
+        let mut parser = Parser::new(tokens.clone());
+        let got = parser.parse();
+        println!("tokens: {:?}, should be: {:?}, got: {:?}",
+                 tokens.iter().map(|i| i.value()).collect::<Vec<_>>(),
+                 should_be,
+                 got);
+        assert_eq!(got, Ok(should_be));
+    }
+
+    #[test]
+    fn nested_list_with_list_in_first_position() {
+        let tokens = toks!("(", "(", "*", ")", "(", "32", ")", "true", "1.23", ")");
+        let should_be = t!(List,
+                           [t!(List, [t!(Sym, "*")]),
+                            t!(List, [t!(Int, 32)]),
+                            t!(Bool, true),
+                            t!(Float, 1.23)]);
+
+        let mut parser = Parser::new(tokens.clone());
+        let got = parser.parse();
+        println!("tokens: {:?}, should be: {:?}, got: {:?}",
+                 tokens.iter().map(|i| i.value()).collect::<Vec<_>>(),
+                 should_be,
+                 got);
+        assert_eq!(got, Ok(should_be));
+    }
+
 }

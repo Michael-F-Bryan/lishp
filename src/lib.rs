@@ -5,9 +5,9 @@
 //!
 //! # Examples
 //!
-//! This library was designed to be easy to use and from existing Rust code. So
-//! you have full access to all the internals if necessary. This makes
-//! tokenizing a breeze.
+//! This library was designed to be easy to use and from existing Rust code so
+//! you have full access to all the internals. This makes tokenizing source
+//! code a breeze.
 //!
 //! ```
 //! let src = "(+ 5 (% 9 2))";
@@ -18,7 +18,7 @@
 //!
 //! ```
 //! # use lishp::parser::Parser;
-//! # let src = "(+ 5 (% 9 2))";
+//! # let src = "(print (+ 5 (% 9 2)))";
 //! # let tokens = lishp::tokenize(src).unwrap();
 //! let mut parser = Parser::new(tokens);
 //! let ast = parser.parse().unwrap();
