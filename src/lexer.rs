@@ -109,6 +109,7 @@ impl Token {
     }
 }
 
+
 impl PartialEq<str> for Token {
     fn eq(&self, other: &str) -> bool {
         self.value == other.as_ref()
@@ -168,7 +169,7 @@ fn make_patterns() -> Vec<Regex> {
     patterns.push(Regex::new(r"^-?\d+").unwrap());  // integers
     patterns.push(Regex::new(r"^\(").unwrap());
     patterns.push(Regex::new(r"^\)").unwrap());
-    patterns.push(Regex::new(r"^[-_a-zA-Z+=*^&$!@/?|][-_a-zA-Z0-9+=*^&$!@/?|]*").unwrap());  // All valid identifiers
+    patterns.push(Regex::new(r"^[-_a-zA-Z+=*^&$!@/?%|][-_a-zA-Z0-9+=*^&$!@/?|%]*").unwrap());  // All valid identifiers
     patterns.push(Regex::new(r#"^"([^\\"]|\\.)*""#).unwrap()); // Double quote strings
     patterns.push(Regex::new(r"(?m)^;.*$").unwrap());  // comments
     patterns.push(Regex::new(r"^\s+").unwrap());
@@ -208,6 +209,7 @@ mod tests {
         "$" => tok!("$"),
         "@" => tok!("@"),
         "*" => tok!("*"),
+        "%" => tok!("%"),
         "&" => tok!("&"),
         "|" => tok!("|"),
         "$ARGV$" => tok!("$ARGV$")

@@ -62,3 +62,41 @@ macro_rules! token_stream {
             }
         };
     }
+
+
+/// Create a vector of tokens (the Span won't be calculated properly, so don't
+/// use this if you still need it).
+macro_rules! toks {
+    ( $( $t:expr ),* ) => {
+        vec![
+        $( tok!($t) ),*
+        ]
+    };
+}
+
+/// Short-cut for creating a new Type instance
+macro_rules! t {
+    (List, [ $( $val:expr ),* ] ) => {
+        Type::List(vec![
+            $( $val ),*
+            ])
+    };
+    (String, $val:expr) => {
+        Type::String($val.to_string())
+    };
+    (Sym, $val:expr) => {
+        Type::Symbol($val.to_string())
+    };
+    (Int, $val:expr) => {
+        Type::Integer($val)
+    };
+    (Float, $val:expr) => {
+        Type::Float($val)
+    };
+    (Bool, $val:expr) => {
+        Type::Boolean($val)
+    };
+    (Nil) => {
+        Type::Nil
+    };
+}

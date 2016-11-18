@@ -55,7 +55,25 @@ impl Parser {
     }
 
     fn parse_list(&mut self) -> LishpResult<Type> {
-        unimplemented!()
+        let mut components: Vec<Type> = Vec::new();
+        if cfg!(test) {
+            println!("Next token: {:?}", self.peek());
+        }
+
+        // consume the open paren
+        let _ = self.next();
+
+        // otherwise keep parsing atoms until you hit that closing paren
+        while !self.peek().ok_or(LishpError::EOF)?.starts_with(")") {
+            let next_atom = self.parse_form()?;
+            components.push(next_atom);
+        }
+
+        if components.len() == 0 {
+            Ok(Type::Nil)
+        } else {
+            Ok(Type::List(components))
+        }
     }
 
     fn parse_atom(&mut self) -> LishpResult<Type> {
@@ -75,11 +93,11 @@ impl Parser {
             let _ = letters.remove(0);
             Ok(Type::String(letters.into_iter().collect()))
         } else {
-            // first check to see if it's a bool
-            if let Ok(b) = next_token.parse::<bool>() {
-                Ok(Type::Boolean(b))
-            } else {
-                Ok(Type::Symbol(next_token.value().to_string()))
+            match next_token.value() {
+                "nil" => Ok(Type::Nil),
+                "true" => Ok(Type::Boolean(true)),
+                "false" => Ok(Type::Boolean(false)),
+                other => Ok(Type::Symbol(other.to_string())),
             }
         }
     }
@@ -88,12 +106,10 @@ impl Parser {
 
 #[cfg(test)]
 mod tests {
-    use lexer;
     use super::*;
     use types::Type;
 
     #[test]
-    #[ignore]
     fn parse_nil_expressions() {
         let inputs = vec![vec![], vec![tok!("("), tok!(")")], vec![tok!("nil")]];
 
@@ -114,13 +130,29 @@ mod tests {
                           (tok!("1.23"), Type::Float(1.23)),
                           (tok!("true"), Type::Boolean(true)),
                           (tok!("false"), Type::Boolean(false)),
-                          (tok!("foo"), Type::Symbol("foo".to_string())),
-                          (tok!("\"foo\""), Type::String("foo".to_string()))];
+                          (tok!("nil"), Type::Nil),
+                          (tok!("foo"), t!(Sym, "foo")),
+                          (tok!("\"foo\""), t!(String, "foo"))];
 
         for (src, should_be) in inputs {
             let mut parser = Parser::new(vec![src.clone()]);
             let got = parser.parse();
             println!("src: {:?}, should be: {:?}, got: {:?}", src, should_be, got);
+            assert_eq!(got, Ok(should_be));
+        }
+    }
+
+    #[test]
+    fn parse_basic_lists() {
+        let inputs = vec![(toks!("(", "foo", ")"), t!(List, [t!(Sym, "foo")]))];
+
+        for (src, should_be) in inputs {
+            let mut parser = Parser::new(src.clone());
+            let got = parser.parse();
+            println!("src: {:?}, should be: {:?}, got: {:?}",
+                     src.iter().map(|i| i.value()).collect::<Vec<_>>(),
+                     should_be,
+                     got);
             assert_eq!(got, Ok(should_be));
         }
     }
