@@ -5,7 +5,7 @@ rust:
 - nightly
 - beta
 - stable
-matrix: 
+matrix:
 allow_failures:
 - rust: nightly
 before_script:

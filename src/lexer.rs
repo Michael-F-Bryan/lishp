@@ -4,6 +4,25 @@ use regex::Regex;
 use std::str::FromStr;
 
 
+/// Turn some source code into a list of Tokens.
+pub fn tokenize<T: Into<String>>(src: T) -> Result<Vec<Token>, InvalidTokenError> {
+    let mut lexer = Lexer::new(src);
+    let mut tokens = vec![];
+
+    loop {
+        match lexer.next_token()? {
+            None => break,
+            Some(t) => {
+                if !t.is_whitespace() {
+                    tokens.push(t);
+                }
+            }
+        }
+    }
+
+    Ok(tokens)
+}
+
 /// The location of a Token in the source code. Start and end are the idices
 /// that the token starts and ends at.
 #[derive(Copy, Clone, Debug, PartialEq)]
@@ -58,6 +77,41 @@ impl Token {
         where F: FromStr
     {
         self.value.parse()
+    }
+
+    /// Check whether the token consists entirely of whitespace.
+    pub fn is_whitespace(&self) -> bool {
+        self.value.as_str().trim().len() == 0
+    }
+
+    /// Get the length of the token string.
+    pub fn len(&self) -> usize {
+        self.value.len()
+    }
+
+    /// Check if the token starts with a particular string.
+    pub fn starts_with(&self, pat: &str) -> bool {
+        self.value.starts_with(pat)
+    }
+
+    /// Check if the token's first character is a number.
+    pub fn starts_with_number(&self) -> bool {
+        if let Some(digit) = self.value.chars().next() {
+            digit.is_digit(10)
+        } else {
+            false
+        }
+    }
+
+    /// Get a reference to the Token as a string.
+    pub fn value(&self) -> &str {
+        &self.value
+    }
+}
+
+impl PartialEq<str> for Token {
+    fn eq(&self, other: &str) -> bool {
+        self.value == other.as_ref()
     }
 }
 
@@ -122,63 +176,10 @@ fn make_patterns() -> Vec<Regex> {
 }
 
 
+
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    /// A simple helper macro that generates a test which will read in a bunch
-    /// of (src, should_be) pairs and assert that the value the lexer gives is
-    /// what it should be.
-    macro_rules! lexer_match {
-        ($name:ident, $( $src:expr => $should_be:expr ),* ) => {
-            #[test]
-            fn $name() {
-                let inputs = vec![$( ($src , $should_be) ),*];
-
-                for (src, should_be) in inputs {
-                    let mut lexer = Lexer::new(src);
-                    let got = lexer.next_token();
-                    assert_eq!(got, Ok(Some(should_be)));
-                }
-            }
-        };
-    }
-
-    macro_rules! token_stream {
-        ($name:ident, $( $src:expr => [ $( $should_be: expr ),* ] ),* ) => {
-            #[test]
-            fn $name() {
-                let inputs = vec![$( ($src ,
-                    vec![ $( $should_be ),*] )
-                    ),*
-                ];
-
-                for (src, should_be) in inputs {
-                    let mut lexer = Lexer::new(src);
-                    let mut got = vec![];
-
-                    for _ in 0..should_be.len() {
-                        if let Ok(thing) = lexer.next_token() {
-                            got.push(thing);
-                        }
-                    }
-
-                    for (got, should_be) in got.into_iter().zip(should_be) {
-                        assert_eq!(got, Some(should_be));
-                    }
-                }
-            }
-        };
-    }
-
-    macro_rules! tok {
-        ($t:expr) => {
-            Token::new($t, Span::new(0, $t.len()))
-        };
-        ($t:expr, $len:expr) => {
-            Token::new($t, Span::new($len, $len + $t.len()))
-        };
-    }
 
     lexer_match!(match_numbers,
         "1" => tok!("1"),
@@ -255,4 +256,20 @@ mod tests {
                                  tok!(" ", 15),
                                  tok!(")", 16)]
     );
+
+    #[test]
+    fn tokenizer() {
+        let src = "(+ foo bar (9))";
+        let should_be = vec![tok!("(", 0),
+                             tok!("+", 1),
+                             tok!("foo", 3),
+                             tok!("bar", 7),
+                             tok!("(", 11),
+                             tok!("9", 12),
+                             tok!(")", 13),
+                             tok!(")", 14)];
+
+        let got = tokenize(src);
+        assert_eq!(got, Ok(should_be));
+    }
 }

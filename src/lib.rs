@@ -1,7 +1,7 @@
 //! A lisp interpreter written in Rust.
 //!
-//! The interpreter itself can be used as a library, which means it's possible
-//! to give your applications a scripting engine.
+//! The interpreter itself can be used as a library, so as an added bonus, it's
+//! fairly easy to use as an embedded scripting engine.
 //!
 //! # Examples
 //!
@@ -24,5 +24,16 @@
 
 extern crate regex;
 
+#[macro_use]
+mod macros;
+
 // Sub-modules of the lishp crate
 pub mod lexer;
+pub mod parser;
+pub mod errors;
+pub mod types;
+
+// re-export for convenience
+
+pub use errors::{LishpResult, LishpError};
+pub use lexer::tokenize;
