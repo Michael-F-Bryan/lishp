@@ -10,7 +10,7 @@
 //! code a breeze.
 //!
 //! ```
-//! let src = "(+ 5 (% 9 2))";
+//! let src = r#"(print "5 + (9 % 2) = " (+ 5 (% 9 2)))"#;
 //! let tokens = lishp::tokenize(src).unwrap();
 //! ```
 //!
@@ -37,8 +37,7 @@
     unused_import_braces,
     unused_qualifications,
     unused_extern_crates,
-    unused_results,
-    variant_size_differences)]
+    unused_results)]
 
 extern crate regex;
 

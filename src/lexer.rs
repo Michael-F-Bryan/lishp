@@ -1,22 +1,26 @@
-//! This is the module containing the lexer.
+//! This module contains the functionality required to tokenize source code.
+//!
+//! The `Lexer` works by cycling through a list of regular expressions and tries
+//! to match one of them. If there's a match, then you get a new Token
+//! containing the matched string and its location in the code. Otherwise you'll
+//! get an `InvalidTokenError`.
 
 use regex::Regex;
 use std::str::FromStr;
 
 
 /// Turn some source code into a list of Tokens.
+///
+/// This is pretty much just a thin wrapper around the `Lexer` struct. It
+/// creates a lexer then keeps reading tokens until there aren't any left,
+/// skipping any whitespace.
 pub fn tokenize<T: Into<String>>(src: T) -> Result<Vec<Token>, InvalidTokenError> {
     let mut lexer = Lexer::new(src);
     let mut tokens = vec![];
 
-    loop {
-        match lexer.next_token()? {
-            None => break,
-            Some(t) => {
-                if !t.is_whitespace() {
-                    tokens.push(t);
-                }
-            }
+    while let Some(token) = lexer.next_token()? {
+        if !token.is_whitespace() {
+            tokens.push(token);
         }
     }
 
@@ -146,12 +150,6 @@ impl Lexer {
                 // Turn start/end from relative to absolute (true) indices
                 let (start, end) = (start + self.position, end + self.position);
                 let tok = Token::new(&self.source[start..end], Span::new(start, end));
-
-                if cfg!(test) {
-                    // Add a little tracer to the lexer to see what it's matching
-                    // TODO: Remove this
-                    println!("{} ({}, {}) => {:?}", self.position, start, end, tok);
-                }
 
                 self.position = end;
                 return Ok(Some(tok));

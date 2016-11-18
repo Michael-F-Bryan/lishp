@@ -1,5 +1,7 @@
 //! A parser for turning a list of Tokens into an Abstract Syntax Tree.
 
+// TODO: add proper error handling for unbalanced parens
+
 use errors::{LishpError, LishpResult};
 use lexer::Token;
 use types::Type;
@@ -12,6 +14,7 @@ use types::Type;
 pub struct Parser {
     tokens: Vec<Token>,
     position: usize,
+    parens_stack: Vec<usize>,
 }
 
 impl Parser {
@@ -20,6 +23,7 @@ impl Parser {
         Parser {
             tokens: tokens,
             position: 0,
+            parens_stack: vec![],
         }
     }
 
@@ -39,7 +43,12 @@ impl Parser {
 
     /// Do the actual parsing and get the resultant AST.
     pub fn parse(&mut self) -> LishpResult<Type> {
-        self.parse_form()
+        let ast = self.parse_form()?;
+        if self.position != self.tokens.len() {
+            Err(self.eof())
+        } else {
+            Ok(ast)
+        }
     }
 
     fn parse_form(&mut self) -> LishpResult<Type> {
@@ -47,7 +56,8 @@ impl Parser {
             return Ok(Type::Nil);
         }
 
-        if self.peek().unwrap().starts_with("(") {
+        // try to consume a '(', if we can then we need to parse a list
+        if let Some(_) = self.chomp_open_paren() {
             self.parse_list()
         } else {
             self.parse_atom()
@@ -56,21 +66,12 @@ impl Parser {
 
     fn parse_list(&mut self) -> LishpResult<Type> {
         let mut components: Vec<Type> = Vec::new();
-        if cfg!(test) {
-            println!("Next token: {:?}", self.peek());
-        }
-
-        // consume the open paren
-        let _ = self.next();
 
         // otherwise keep parsing atoms until you hit that closing paren
-        while !self.peek().ok_or(LishpError::EOF)?.starts_with(")") {
+        while let None = self.chomp_close_paren() {
             let next_atom = self.parse_form()?;
             components.push(next_atom);
         }
-
-        // pop off the closing paren
-        let _ = self.next();
 
         if components.len() == 0 {
             Ok(Type::Nil)
@@ -80,7 +81,12 @@ impl Parser {
     }
 
     fn parse_atom(&mut self) -> LishpResult<Type> {
-        let next_token = self.next().ok_or(LishpError::EOF)?;
+        if self.position >= self.tokens.len() {
+            return Err(self.eof());
+        }
+
+        let next_token = self.next().unwrap();
+
         if next_token.starts_with_number() {
             // try parsing the token as a number
             if let Ok(int) = next_token.parse::<i64>() {
@@ -94,7 +100,13 @@ impl Parser {
             debug_assert!(letters.len() >= 2);
             let _ = letters.pop();  // get rid of the trailing quote
             let _ = letters.remove(0);
-            Ok(Type::String(letters.into_iter().collect()))
+
+            // Collect the characters back into a string and do the usual
+            // escapes (\n, \t, etc)
+            let no_quotes =
+                letters.into_iter().collect::<String>().replace(r"\n", "\n").replace(r"\t", "\t");
+
+            Ok(Type::String(no_quotes))
         } else {
             match next_token.value() {
                 "nil" => Ok(Type::Nil),
@@ -103,6 +115,30 @@ impl Parser {
                 other => Ok(Type::Symbol(other.to_string())),
             }
         }
+    }
+
+    fn chomp_open_paren(&mut self) -> Option<&Token> {
+        if let Some(is_paren) = self.peek().map(|tok| tok == "(") {
+            if is_paren {
+                self.parens_stack.push(self.position);
+                return self.next();
+            }
+        }
+        None
+    }
+
+    fn chomp_close_paren(&mut self) -> Option<&Token> {
+        if let Some(is_paren) = self.peek().map(|tok| tok == ")") {
+            if is_paren {
+                let _ = self.parens_stack.pop();
+                return self.next();
+            }
+        }
+        None
+    }
+
+    fn eof(&self) -> LishpError {
+        LishpError::EOF(*self.parens_stack.get(0).unwrap_or(&0))
     }
 }
 
@@ -194,4 +230,36 @@ mod tests {
         assert_eq!(got, Ok(should_be));
     }
 
+    #[test]
+    fn string_escapes_are_done_correctly() {
+        let inputs = vec![(r#""foo\n""#, "foo\n"), (r#""foo\t""#, "foo\t")];
+
+        for (from, to) in inputs {
+            let tok = tok!(from);
+            let mut parser = Parser::new(vec![tok]);
+            if let Ok(Type::String(s)) = parser.parse() {
+                assert_eq!(s, to);
+            } else {
+                unreachable!();
+            }
+
+        }
+    }
+
+    #[test]
+    fn unbalanced_parens() {
+        let inputs = vec![toks!("(", "foo"),
+                          toks!("asd", ")"),
+                          toks!("(", "foo", "(", "123", ")"),
+                          toks!("(", "foo", "(", "123", ")", "(", ")")];
+
+        for tokens in inputs {
+            let mut parser = Parser::new(tokens.clone());
+            let got = parser.parse();
+            assert!(got.is_err());
+            println!("src: {:?}, got: {:?}",
+                     tokens.iter().map(|t| t.value()).collect::<String>(),
+                     got);
+        }
+    }
 }
