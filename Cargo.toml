@@ -5,3 +5,4 @@ authors = ["Michael Bryan <michaelfbryan@gmail.com>"]
 
 [dependencies]
 regex = "*"
+tempfile = "*"
