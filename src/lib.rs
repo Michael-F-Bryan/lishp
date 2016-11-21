@@ -49,6 +49,7 @@ pub mod lexer;
 pub mod parser;
 pub mod errors;
 pub mod types;
+pub mod visitor;
 
 // re-export for convenience
 

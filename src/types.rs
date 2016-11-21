@@ -1,5 +1,8 @@
 //! The base data-type used in Lishp.
 
+// TODO: When we start doing Objects, this will simplify down to either
+// a List or an Object. Should primitives be distinct from Objects?
+
 /// An enum containing all the possible data types that can be used in Lishp.
 #[derive(Debug, PartialEq)]
 pub enum Type {
