@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["Visitor","The generic `Visitor` trait. Anything implementing this trait will be able to visit the nodes in an AST."]]});

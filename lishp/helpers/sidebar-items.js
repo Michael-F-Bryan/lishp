@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["render","Walk the AST then use it to generate a Dot graph and write it to a file-like object."]]});

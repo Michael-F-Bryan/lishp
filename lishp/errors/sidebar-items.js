@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["LishpError","All the errors specific to Lishp."]],"type":[["LishpResult","A shortcut for any Result which contains a LishpError."]]});

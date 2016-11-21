@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["parse","A convenience method for parsing a stream of Tokens into an AST."]],"struct":[["Parser","The Parser."]]});

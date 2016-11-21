@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Atom","Atoms are the most fundamental elements in the language. They consist of things like integers, floats, strings, bools, and symbols."],["Sexpr","A Sexpr is either a single Atom, or a list of more Sexpr's."]],"fn":[["parse","Parse source code into its abstract syntax tree representation."]],"struct":[["List","A list of Sexpr's."]]});

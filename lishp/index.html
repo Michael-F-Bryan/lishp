@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `lishp` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, lishp">
+
+    <title>lishp - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'lishp', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>lishp</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-0' class='srclink' href='../src/lishp/src/lib.rs.html#1-62' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>A lisp interpreter written in Rust.</p>
+
+<p>The interpreter itself can be used as a library, so as an added bonus, it&#39;s
+fairly easy to use as an embedded scripting engine.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<p>This library was designed to be easy to use and from existing Rust code so
+you have full access to all the internals. This makes tokenizing source
+code a breeze.</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='comment'>// note we&#39;re using raw literal strings here (r#&quot; .... &quot;#) to escape quotes</span>
+<span class='comment'>// in the middle of our code.</span>
+<span class='kw'>let</span> <span class='ident'>src</span> <span class='op'>=</span> <span class='string'>r#&quot;(print &quot;5 + (9 % 2) = &quot;
+               (+ 5 (% 9 2)))&quot;#</span>;
+<span class='kw'>let</span> <span class='ident'>tokens</span> <span class='op'>=</span> <span class='ident'>lishp</span>::<span class='ident'>tokenize</span>(<span class='ident'>src</span>).<span class='ident'>unwrap</span>();<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+
+<p>Generating an Abstract Syntax Tree isn&#39;t terribly difficult either.</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>parser</span> <span class='op'>=</span> <span class='ident'>Parser</span>::<span class='ident'>new</span>(<span class='ident'>tokens</span>);
+<span class='kw'>let</span> <span class='ident'>ast</span> <span class='op'>=</span> <span class='ident'>parser</span>.<span class='ident'>parse</span>().<span class='ident'>unwrap</span>();<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use errors::{<a class='type' href='../lishp/errors/type.LishpResult.html' title='lishp::errors::LishpResult'>LishpResult</a>, <a class='enum' href='../lishp/errors/enum.LishpError.html' title='lishp::errors::LishpError'>LishpError</a>};</code></td></tr><tr><td><code>pub use lexer::<a class='fn' href='../lishp/lexer/fn.tokenize.html' title='lishp::lexer::tokenize'>tokenize</a>;</code></td></tr><tr><td><code>pub use parser::{<a class='fn' href='../lishp/parser/fn.parse.html' title='lishp::parser::parse'>parse</a>, <a class='struct' href='../lishp/parser/struct.Parser.html' title='lishp::parser::Parser'>Parser</a>};</code></td></tr><tr><td><code>pub use types::<a class='enum' href='../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='errors/index.html'
+                                  title='lishp::errors'>errors</a></td>
+                           <td class='docblock-short'>
+                                <p>The common error types used in <code>Lishp</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='lexer/index.html'
+                                  title='lishp::lexer'>lexer</a></td>
+                           <td class='docblock-short'>
+                                <p>This module contains the functionality required to tokenize source code.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='parser/index.html'
+                                  title='lishp::parser'>parser</a></td>
+                           <td class='docblock-short'>
+                                <p>A parser for turning a list of Tokens into an Abstract Syntax Tree.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='types/index.html'
+                                  title='lishp::types'>types</a></td>
+                           <td class='docblock-short'>
+                                <p>The base data-type used in Lishp.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='visitor/index.html'
+                                  title='lishp::visitor'>visitor</a></td>
+                           <td class='docblock-short'>
+                                <p>Whenever you want to do something with the AST, you generally need to visit
+each node of the tree. To make this job easier, there&#39;s the <code>Visitor</code> trait.</p>
+                           </td>
+                       </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.t.html'
+                                  title='lishp::t'>t</a></td>
+                           <td class='docblock-short'>
+                                <p>Short-cut for creating a new Type instance.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.tok.html'
+                                  title='lishp::tok'>tok</a></td>
+                           <td class='docblock-short'>
+                                <p>A short-hand way of creating a new token.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.toks.html'
+                                  title='lishp::toks'>toks</a></td>
+                           <td class='docblock-short'>
+                                <p>Create a Vec of one or more Tokens. The Span is automatically calculated
+when the token list is generated.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "lishp";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ArrowShape` enum in crate `dot`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ArrowShape">
+
+    <title>dot::ArrowShape - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../dot/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <p class='location'><a href='index.html'>dot</a></p><script>window.sidebarCurrent = {name: 'ArrowShape', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>dot</a>::<wbr><a class='enum' href=''>ArrowShape</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-260' class='srclink' href='../src/dot/lib.rs.html#683-707' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum ArrowShape {
+    NoArrow,
+    Normal(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    Box(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    Crow(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    Curve(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    ICurve(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    Diamond(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    Dot(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>),
+    Inv(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    Tee(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+    Vee(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>),
+}</pre><div class='docblock'><p>This enumeration represents all possible arrow edge
+as defined in <a href="http://www.graphviz.org/content/arrow-shapes">grapviz documentation</a>.</p>
+</div><h2 class='variants'>Variants</h2>
+<span id='variant.NoArrow' class='variant'><span id='NoArrow.v' class='invisible'><code>NoArrow</code></span></span><div class='docblock'><p>No arrow will be displayed</p>
+</div><span id='variant.Normal' class='variant'><span id='Normal.v' class='invisible'><code>Normal(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow that ends in a triangle. Basically a normal arrow.
+NOTE: there is error in official documentation, this supports both fill and side clipping</p>
+</div><span id='variant.Box' class='variant'><span id='Box.v' class='invisible'><code>Box(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending in a small square box</p>
+</div><span id='variant.Crow' class='variant'><span id='Crow.v' class='invisible'><code>Crow(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending in a three branching lines also called crow&#39;s foot</p>
+</div><span id='variant.Curve' class='variant'><span id='Curve.v' class='invisible'><code>Curve(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending in a curve</p>
+</div><span id='variant.ICurve' class='variant'><span id='ICurve.v' class='invisible'><code>ICurve(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending in an inverted curve</p>
+</div><span id='variant.Diamond' class='variant'><span id='Diamond.v' class='invisible'><code>Diamond(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending in an diamond shaped rectangular shape.</p>
+</div><span id='variant.Dot' class='variant'><span id='Dot.v' class='invisible'><code>Dot(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>)</code></span></span><div class='docblock'><p>Arrow ending in a circle.</p>
+</div><span id='variant.Inv' class='variant'><span id='Inv.v' class='invisible'><code>Inv(<a class='enum' href='../dot/enum.Fill.html' title='dot::Fill'>Fill</a>,&nbsp;<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending in an inverted triangle.</p>
+</div><span id='variant.Tee' class='variant'><span id='Tee.v' class='invisible'><code>Tee(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending with a T shaped arrow.</p>
+</div><span id='variant.Vee' class='variant'><span id='Vee.v' class='invisible'><code>Vee(<a class='enum' href='../dot/enum.Side.html' title='dot::Side'>Side</a>)</code></span></span><div class='docblock'><p>Arrow ending with a V shaped arrow.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-385' class='srclink' href='../src/dot/lib.rs.html#708-801' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.none' class='method'><span id='none.v' class='invisible'><code>fn <a href='#method.none' class='fnname'>none</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns no arrow.</p>
+</div><h4 id='method.normal' class='method'><span id='normal.v' class='invisible'><code>fn <a href='#method.normal' class='fnname'>normal</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns normal arrow.</p>
+</div><h4 id='method.boxed' class='method'><span id='boxed.v' class='invisible'><code>fn <a href='#method.boxed' class='fnname'>boxed</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns a regular box arrow.</p>
+</div><h4 id='method.crow' class='method'><span id='crow.v' class='invisible'><code>fn <a href='#method.crow' class='fnname'>crow</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns a regular crow arrow.</p>
+</div><h4 id='method.curve' class='method'><span id='curve.v' class='invisible'><code>fn <a href='#method.curve' class='fnname'>curve</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns a regular curve arrow.</p>
+</div><h4 id='method.icurve' class='method'><span id='icurve.v' class='invisible'><code>fn <a href='#method.icurve' class='fnname'>icurve</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns an inverted curve arrow.</p>
+</div><h4 id='method.diamond' class='method'><span id='diamond.v' class='invisible'><code>fn <a href='#method.diamond' class='fnname'>diamond</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns a diamond arrow.</p>
+</div><h4 id='method.dot' class='method'><span id='dot.v' class='invisible'><code>fn <a href='#method.dot' class='fnname'>dot</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns a circle shaped arrow.</p>
+</div><h4 id='method.inv' class='method'><span id='inv.v' class='invisible'><code>fn <a href='#method.inv' class='fnname'>inv</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns an inverted triangle arrow.</p>
+</div><h4 id='method.tee' class='method'><span id='tee.v' class='invisible'><code>fn <a href='#method.tee' class='fnname'>tee</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns a T shaped arrow.</p>
+</div><h4 id='method.vee' class='method'><span id='vee.v' class='invisible'><code>fn <a href='#method.vee' class='fnname'>vee</a>() -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Constructor which returns a V shaped arrow.</p>
+</div><h4 id='method.to_dot_string' class='method'><span id='to_dot_string.v' class='invisible'><code>fn <a href='#method.to_dot_string' class='fnname'>to_dot_string</a>(&amp;self) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></span></h4>
+<div class='docblock'><p>Function which renders given ArrowShape into a String for displaying.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-287' class='srclink' href='../src/dot/lib.rs.html#682' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-290' class='srclink' href='../src/dot/lib.rs.html#682' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> for <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-291' class='srclink' href='../src/dot/lib.rs.html#682' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.hash' class='method'><span id='hash.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#tymethod.hash' class='fnname'>hash</a>&lt;__H:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a>&gt;(&amp;self, __arg_0: &amp;mut __H)</code></span></h4>
+<div class='docblock'><p>Feeds this value into the state given, updating the hasher as necessary.</p>
+</div><h4 id='method.hash_slice' class='method'><span id='hash_slice.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a></span></code><div class='since' title='Stable since Rust version 1.3.0'>1.3.0</div></span></h4>
+<div class='docblock'><p>Feeds a slice of this type into the state provided.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-311' class='srclink' href='../src/dot/lib.rs.html#682' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class='method'><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class='method'><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='enum' href='../dot/enum.ArrowShape.html' title='dot::ArrowShape'>ArrowShape</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-382' class='srclink' href='../src/dot/lib.rs.html#682' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "dot";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

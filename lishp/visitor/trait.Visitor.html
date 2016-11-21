@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Visitor` trait in crate `lishp`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Visitor">
+
+    <title>lishp::visitor::Visitor - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>lishp</a>::<wbr><a href='index.html'>visitor</a></p><script>window.sidebarCurrent = {name: 'Visitor', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>lishp</a>::<wbr><a href='index.html'>visitor</a>::<wbr><a class='trait' href=''>Visitor</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-336' class='srclink' href='../../src/lishp/src/visitor.rs.html#34-86' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Visitor {
+    fn <a href='#method.visit' class='fnname'>visit</a>(&amp;mut self, node: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+    fn <a href='#method.visit_list' class='fnname'>visit_list</a>(&amp;mut self, node: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+    fn <a href='#method.visit_atom' class='fnname'>visit_atom</a>(&amp;mut self, node: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+    fn <a href='#method.visit_boolean' class='fnname'>visit_boolean</a>(&amp;mut self, b: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+    fn <a href='#method.visit_integer' class='fnname'>visit_integer</a>(&amp;mut self, i: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+    fn <a href='#method.visit_float' class='fnname'>visit_float</a>(&amp;mut self, f: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+    fn <a href='#method.visit_string' class='fnname'>visit_string</a>(&amp;mut self, s: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+    fn <a href='#method.visit_symbol' class='fnname'>visit_symbol</a>(&amp;mut self, s: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>) { ... }
+}</pre><div class='docblock'><p>The generic <code>Visitor</code> trait. Anything implementing this trait will be able
+to visit the nodes in an AST.</p>
+
+<p>Note that all <code>visit_*()</code> methods take in a mutable reference to a <code>Type</code>.
+This means that a visitor can change literally <strong>anything</strong> in the AST if
+they want to, making it easy for you to add in arbitrary optimiser passes
+or &quot;compiler plugins&quot; before the actual code is run.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>lishp</span>::<span class='ident'>visitor</span>::<span class='ident'>Visitor</span>;
+<span class='kw'>struct</span> <span class='ident'>MyVisitor</span>;
+
+<span class='comment'>// simply writing `impl Visitor for MyVisitor {}` would give us access to</span>
+<span class='comment'>// all the `Visitor` visit_*() functions. Therefore, you only need to</span>
+<span class='comment'>// override the methods you need.</span>
+<span class='kw'>impl</span> <span class='ident'>Visitor</span> <span class='kw'>for</span> <span class='ident'>MyVisitor</span> {
+  <span class='kw'>fn</span> <span class='ident'>visit_symbol</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Type</span>) {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Visiting symbol: {:?}&quot;</span>, <span class='ident'>s</span>);
+  }
+}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+</div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.visit' class='method stab '><span id='visit.v' class='invisible'><code>fn <a href='#method.visit' class='fnname'>visit</a>(&amp;mut self, node: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>The default behaviour is to delegate to either <code>visit_list()</code> or
+<code>visit_atom()</code> depending on what type of AST node it is.</p>
+</div><h3 id='method.visit_list' class='method stab '><span id='visit_list.v' class='invisible'><code>fn <a href='#method.visit_list' class='fnname'>visit_list</a>(&amp;mut self, node: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>Just recursively visit each node in the list.</p>
+</div><h3 id='method.visit_atom' class='method stab '><span id='visit_atom.v' class='invisible'><code>fn <a href='#method.visit_atom' class='fnname'>visit_atom</a>(&amp;mut self, node: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>Visiting an atom simply delegates to the appropriate visitor for that
+node type (<code>visit_boolean()</code>, <code>visit_integer()</code>, etc).</p>
+</div><h3 id='method.visit_boolean' class='method stab '><span id='visit_boolean.v' class='invisible'><code>fn <a href='#method.visit_boolean' class='fnname'>visit_boolean</a>(&amp;mut self, b: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>Visit a boolean. Default behaviour is a no-op.</p>
+</div><h3 id='method.visit_integer' class='method stab '><span id='visit_integer.v' class='invisible'><code>fn <a href='#method.visit_integer' class='fnname'>visit_integer</a>(&amp;mut self, i: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>Visit an integer. Default behaviour is a no-op.</p>
+</div><h3 id='method.visit_float' class='method stab '><span id='visit_float.v' class='invisible'><code>fn <a href='#method.visit_float' class='fnname'>visit_float</a>(&amp;mut self, f: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>Visit a float. Default behaviour is a no-op.</p>
+</div><h3 id='method.visit_string' class='method stab '><span id='visit_string.v' class='invisible'><code>fn <a href='#method.visit_string' class='fnname'>visit_string</a>(&amp;mut self, s: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>Visit a string. Default behaviour is a no-op.</p>
+</div><h3 id='method.visit_symbol' class='method stab '><span id='visit_symbol.v' class='invisible'><code>fn <a href='#method.visit_symbol' class='fnname'>visit_symbol</a>(&amp;mut self, s: &amp;mut <a class='enum' href='../../lishp/types/enum.Type.html' title='lishp::types::Type'>Type</a>)</code></span></h3><div class='docblock'><p>Visit a symbol. Default behaviour is a no-op.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    </ul><script type="text/javascript" async
+                         src="../../implementors/lishp/visitor/trait.Visitor.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lishp";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

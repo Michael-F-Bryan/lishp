@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Type","An enum containing all the possible data types that can be used in Lishp."]]});
