@@ -10,8 +10,14 @@ use types::Type;
 /// The generic `Visitor` trait. Anything implementing this trait will be able
 /// to visit the nodes in an AST.
 ///
+/// Note that all `visit_*()` methods take in a mutable reference to a `Type`.
+/// This means that a visitor can change literally **anything** in the AST if
+/// they want to, making it easy for you to add in arbitrary optimiser passes
+/// or "compiler plugins" before the actual code is run.
+///
 /// # Examples
 /// ```
+/// # use lishp::types::Type;
 /// use lishp::visitor::Visitor;
 /// struct MyVisitor;
 ///
@@ -19,8 +25,8 @@ use types::Type;
 /// // all the `Visitor` visit_*() functions. Therefore, you only need to
 /// // override the methods you need.
 /// impl Visitor for MyVisitor {
-///   fn visit_symbol(&mut self, s: &String) {
-///     println!("Visiting symbol: {}", s);
+///   fn visit_symbol(&mut self, s: &mut Type) {
+///     println!("Visiting symbol: {:?}", s);
 ///   }
 /// }
 /// ```
@@ -28,29 +34,34 @@ use types::Type;
 pub trait Visitor {
     /// The default behaviour is to delegate to either `visit_list()` or
     /// `visit_atom()` depending on what type of AST node it is.
-    fn visit(&mut self, node: &Type) {
+    fn visit(&mut self, node: &mut Type) {
         match *node {
-            Type::List(ref l) => self.visit_list(l),
-            ref atom => self.visit_atom(atom),
+            Type::List(_) => self.visit_list(node),
+            _ => self.visit_atom(node),
         }
     }
 
     /// Just recursively visit each node in the list.
-    fn visit_list(&mut self, nodes: &Vec<Type>) {
-        for node in nodes {
-            self.visit(node);
+    fn visit_list(&mut self, node: &mut Type) {
+        match *node {
+            Type::List(ref mut list) => {
+                for node in list.iter_mut() {
+                    self.visit(node);
+                }
+            }
+            _ => unreachable!("Should never get anything other than a List in visit_list()"),
         }
     }
 
     /// Visiting an atom simply delegates to the appropriate visitor for that
     /// node type (`visit_boolean()`, `visit_integer()`, etc).
-    fn visit_atom(&mut self, node: &Type) {
+    fn visit_atom(&mut self, node: &mut Type) {
         match *node {
-            Type::Boolean(ref b) => self.visit_boolean(b),
-            Type::Integer(ref i) => self.visit_integer(i),
-            Type::Float(ref f) => self.visit_float(f),
-            Type::String(ref s) => self.visit_string(s),
-            Type::Symbol(ref s) => self.visit_symbol(s),
+            Type::Boolean(_) => self.visit_boolean(node),
+            Type::Integer(_) => self.visit_integer(node),
+            Type::Float(_) => self.visit_float(node),
+            Type::String(_) => self.visit_string(node),
+            Type::Symbol(_) => self.visit_symbol(node),
             Type::Nil => {
                 // this should be a no-op
             }
@@ -59,48 +70,49 @@ pub trait Visitor {
     }
 
     /// Visit a boolean. Default behaviour is a no-op.
-    fn visit_boolean(&mut self, b: &bool) {}
+    fn visit_boolean(&mut self, b: &mut Type) {}
 
     /// Visit an integer. Default behaviour is a no-op.
-    fn visit_integer(&mut self, i: &i64) {}
+    fn visit_integer(&mut self, i: &mut Type) {}
 
     /// Visit a float. Default behaviour is a no-op.
-    fn visit_float(&mut self, f: &f64) {}
+    fn visit_float(&mut self, f: &mut Type) {}
 
     /// Visit a string. Default behaviour is a no-op.
-    fn visit_string(&mut self, s: &String) {}
+    fn visit_string(&mut self, s: &mut Type) {}
 
     /// Visit a symbol. Default behaviour is a no-op.
-    fn visit_symbol(&mut self, s: &String) {}
+    fn visit_symbol(&mut self, s: &mut Type) {}
 }
 
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use types::Type;
 
     struct DummyVisitor {
         visit_count: usize,
     }
 
     impl Visitor for DummyVisitor {
-        fn visit_boolean(&mut self, _: &bool) {
+        fn visit_boolean(&mut self, _: &mut Type) {
             self.visit_count += 1;
         }
 
-        fn visit_integer(&mut self, _: &i64) {
+        fn visit_integer(&mut self, _: &mut Type) {
             self.visit_count += 1;
         }
 
-        fn visit_float(&mut self, _: &f64) {
+        fn visit_float(&mut self, _: &mut Type) {
             self.visit_count += 1;
         }
 
-        fn visit_string(&mut self, _: &String) {
+        fn visit_string(&mut self, _: &mut Type) {
             self.visit_count += 1;
         }
 
-        fn visit_symbol(&mut self, _: &String) {
+        fn visit_symbol(&mut self, _: &mut Type) {
             self.visit_count += 1;
         }
     }
@@ -110,10 +122,10 @@ mod tests {
         let inputs =
             vec![t!(Bool, false), t!(Int, 5), t!(Float, 3.14), t!(String, "foo"), t!(Sym, "foo")];
 
-        for input in inputs {
+        for mut input in inputs {
             let mut visitor = DummyVisitor { visit_count: 0 };
 
-            visitor.visit(&input);
+            visitor.visit(&mut input);
 
             assert_eq!(visitor.visit_count, 1);
         }
@@ -121,16 +133,16 @@ mod tests {
 
     #[test]
     fn visit_a_list() {
-        let ast = t!(List,
-                     [t!(Bool, false),
-                      t!(Int, 5),
-                      t!(Float, 3.14),
-                      t!(String, "foo"),
-                      t!(Sym, "foo"),
-                      t!(Nil)]);
+        let mut ast = t!(List,
+                         [t!(Bool, false),
+                          t!(Int, 5),
+                          t!(Float, 3.14),
+                          t!(String, "foo"),
+                          t!(Sym, "foo"),
+                          t!(Nil)]);
         let mut visitor = DummyVisitor { visit_count: 0 };
 
-        visitor.visit(&ast);
+        visitor.visit(&mut ast);
 
         assert_eq!(visitor.visit_count, 5);
     }

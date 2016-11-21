@@ -7,6 +7,12 @@ use lexer::Token;
 use types::Type;
 
 
+/// A convenience method for parsing a stream of Tokens into an AST.
+pub fn parse(tokens: Vec<Token>) -> LishpResult<Type> {
+    let mut parser = Parser::new(tokens);
+    parser.parse()
+}
+
 /// The Parser.
 ///
 /// # Examples

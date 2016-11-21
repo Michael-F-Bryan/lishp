@@ -10,7 +10,10 @@
 //! code a breeze.
 //!
 //! ```
-//! let src = r#"(print "5 + (9 % 2) = " (+ 5 (% 9 2)))"#;
+//! // note we're using raw literal strings here (r#" .... "#) to escape quotes
+//! // in the middle of our code.
+//! let src = r#"(print "5 + (9 % 2) = "
+//!                (+ 5 (% 9 2)))"#;
 //! let tokens = lishp::tokenize(src).unwrap();
 //! ```
 //!
@@ -55,5 +58,5 @@ pub mod visitor;
 
 pub use errors::{LishpResult, LishpError};
 pub use lexer::tokenize;
-pub use parser::Parser;
+pub use parser::{parse, Parser};
 pub use types::Type;

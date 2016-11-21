@@ -1,5 +1,7 @@
 format_strings = false
 reorder_imports = true
+reorder_import_names = true
 take_source_hints = false
 report_todo = "Always"
 report_fixme = "Always"
+write_mode = "Overwrite"

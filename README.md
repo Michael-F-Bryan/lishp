@@ -26,13 +26,17 @@ And build,
 $ cargo build
 ```
 
-The initial build may take a while because `lalrpop` automatically generates a
-~40,000 line parser.
-
-You can then run the interpreter (located at `src/bin/main.rs`) using cargo.
+You can then run the interpreter (located at `src/bin/interpreter.rs`) using
+cargo.
 
 ```
-$ cargo run
+$ cargo run --bin interpreter
+```
+
+Or you can always use the binary directly.
+
+```
+$ ./target/debug/interpreter
 ```
 
 
